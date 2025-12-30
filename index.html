@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PetEyes">
+    <meta name="description" content="See the world through your pet's eyes">
+    
+    <title>PetEyes - See Through Pet Vision</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Dashboard View -->
+        <div id="dashboard" class="view active">
+            <div class="container">
+                <header class="header">
+                    <div class="logo">
+                        <span class="logo-emoji">👁️</span>
+                        <h1>PetEyes</h1>
+                    </div>
+                    <p class="tagline">See the world through your pet's eyes</p>
+                </header>
+
+                <div class="pet-selection">
+                    <h2 class="section-title">Choose Your Pet</h2>
+                    <div class="pet-cards">
+                        <button class="pet-card" data-pet="dog">
+                            <div class="pet-icon">🐕</div>
+                            <h3>Dog Vision</h3>
+                            <p>Dichromatic vision with blue-yellow spectrum</p>
+                            <div class="color-preview">
+                                <span class="color-dot" style="background: #4A90E2;"></span>
+                                <span class="color-dot" style="background: #F5A623;"></span>
+                                <span class="color-dot" style="background: #9B9B9B;"></span>
+                            </div>
+                        </button>
+
+                        <button class="pet-card" data-pet="cat">
+                            <div class="pet-icon">🐱</div>
+                            <h3>Cat Vision</h3>
+                            <p>Enhanced night vision with muted colors</p>
+                            <div class="color-preview">
+                                <span class="color-dot" style="background: #5B8DB8;"></span>
+                                <span class="color-dot" style="background: #C9A961;"></span>
+                                <span class="color-dot" style="background: #7A7A7A;"></span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <p>Tap an animal to start camera</p>
+                </footer>
+            </div>
+        </div>
+
+        <!-- Camera View -->
+        <div id="camera-view" class="view">
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas"></canvas>
+                
+                <div class="camera-overlay">
+                    <div class="top-bar">
+                        <button id="back-btn" class="icon-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <div class="pet-indicator">
+                            <span id="current-pet-icon"></span>
+                            <span id="current-pet-name"></span>
+                        </div>
+                        <div class="spacer"></div>
+                    </div>
+
+                    <div class="bottom-bar">
+                        <button id="toggle-filter" class="toggle-btn">
+                            <span class="toggle-label">Pet Vision</span>
+                            <div class="toggle-switch">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permission Error -->
+        <div id="permission-error" class="view">
+            <div class="container error-container">
+                <div class="error-icon">📷</div>
+                <h2>Camera Access Required</h2>
+                <p>Please allow camera access to use PetEyes</p>
+                <button id="retry-camera" class="primary-btn">Retry</button>
+                <button id="back-to-dashboard" class="secondary-btn">Back to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>
